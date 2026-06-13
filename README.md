@@ -1,10 +1,10 @@
 # weirdo-adam Homebrew Tap
 
-Personal Homebrew tap for open-source tools published by [weirdo-adam](https://github.com/weirdo-adam).
+Homebrew tap for installing release packages from weirdo-adam open-source projects.
 
-Use this tap to install released packages from my projects with Homebrew.
+This repository provides formulae for command-line tools and applications distributed through Homebrew.
 
-## Install
+## Usage
 
 Install a formula directly:
 
@@ -19,13 +19,13 @@ brew tap weirdo-adam/tap
 brew install issue-jumper
 ```
 
-## Available Formulae
+## Formulae
 
 | Formula | Description |
 | --- | --- |
-| `issue-jumper` | Jump from issue references in Zed to the matching tracker page. |
+| `issue-jumper` | Open issue references from Zed in the corresponding tracker page. |
 
-## Update
+## Updates
 
 ```sh
 brew update
