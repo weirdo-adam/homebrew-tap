@@ -13,6 +13,16 @@ on:
         required: true
         default: "issue-jumper-0.1.0"
         type: string
+      source_url:
+        description: "Optional source archive URL to write before bottling"
+        required: false
+        default: ""
+        type: string
+      source_sha256:
+        description: "Optional source archive SHA-256 to write before bottling"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: write
@@ -47,6 +57,17 @@ jobs:
           echo "formula=${formula}" >> "$GITHUB_OUTPUT"
           echo "release_tag=${release_tag}" >> "$GITHUB_OUTPUT"
           echo "root_url=${root_url}" >> "$GITHUB_OUTPUT"
+          echo "source_url=${{ inputs.source_url }}" >> "$GITHUB_OUTPUT"
+          echo "source_sha256=${{ inputs.source_sha256 }}" >> "$GITHUB_OUTPUT"
+
+      - name: Update formula source
+        if: steps.meta.outputs.source_url != ''
+        shell: bash
+        run: |
+          ruby .github/scripts/update-formula-source.rb \
+            "${{ steps.meta.outputs.formula }}" \
+            "${{ steps.meta.outputs.source_url }}" \
+            "${{ steps.meta.outputs.source_sha256 }}"
 
       - name: Tap local checkout
         shell: bash
@@ -104,6 +125,17 @@ jobs:
         run: |
           echo "formula=${{ inputs.formula }}" >> "$GITHUB_OUTPUT"
           echo "release_tag=${{ inputs.release_tag }}" >> "$GITHUB_OUTPUT"
+          echo "source_url=${{ inputs.source_url }}" >> "$GITHUB_OUTPUT"
+          echo "source_sha256=${{ inputs.source_sha256 }}" >> "$GITHUB_OUTPUT"
+
+      - name: Update formula source
+        if: steps.meta.outputs.source_url != ''
+        shell: bash
+        run: |
+          ruby .github/scripts/update-formula-source.rb \
+            "${{ steps.meta.outputs.formula }}" \
+            "${{ steps.meta.outputs.source_url }}" \
+            "${{ steps.meta.outputs.source_sha256 }}"
 
       - name: Tap local checkout
         shell: bash
