@@ -19,6 +19,18 @@ Then install the Zed task/keymap integration when needed:
 issue-jumper install-zed --force
 ```
 
+If `issue-jumper` is not found in a new shell, add Homebrew to `PATH` with `brew shellenv`, or use the full Homebrew path:
+
+```sh
+/opt/homebrew/bin/issue-jumper install-zed --force
+```
+
+If a previous one-command install exists at `~/.local/bin/issue-jumper`, it can shadow the Homebrew version. Remove that manual copy with:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/weirdo-adam/issue-jumper/main/scripts/install.sh | sh -s -- --uninstall
+```
+
 Or add the tap first:
 
 ```sh

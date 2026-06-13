@@ -19,6 +19,22 @@ class IssueJumper < Formula
     system "cargo", "install", *std_cargo_args(path: ".")
   end
 
+  def caveats
+    installer_url = "https://raw.githubusercontent.com/weirdo-adam/" \
+                    "issue-jumper/main/scripts/install.sh"
+
+    <<~EOS
+      To configure Zed:
+        #{opt_bin}/issue-jumper install-zed --force
+
+      If issue-jumper is not found in a new shell, add Homebrew to PATH:
+        eval "$(#{HOMEBREW_PREFIX}/bin/brew shellenv)"
+
+      If ~/.local/bin/issue-jumper from the one-command installer shadows Homebrew, remove it with:
+        curl -fsSL #{installer_url} | sh -s -- --uninstall
+    EOS
+  end
+
   test do
     assert_match "issue-jumper #{version}", shell_output("#{bin}/issue-jumper --version")
   end
