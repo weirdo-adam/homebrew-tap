@@ -98,6 +98,10 @@ jobs:
           echo "formula=${{ inputs.formula }}" >> "$GITHUB_OUTPUT"
           echo "release_tag=${{ inputs.release_tag }}" >> "$GITHUB_OUTPUT"
 
+      - name: Tap local checkout
+        shell: bash
+        run: brew tap weirdo-adam/tap "$GITHUB_WORKSPACE"
+
       - name: Download bottle artifacts
         uses: actions/download-artifact@v4
         with:
