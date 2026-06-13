@@ -68,6 +68,13 @@ jobs:
             --root-url "${{ steps.meta.outputs.root_url }}" \
             "weirdo-adam/tap/${{ steps.meta.outputs.formula }}"
 
+          formula="${{ steps.meta.outputs.formula }}"
+          prefix="${formula}--"
+          for file in "$prefix"*.bottle*.tar.gz "$prefix"*.bottle*.json; do
+            [ -e "$file" ] || continue
+            mv "$file" "${formula}-${file#$prefix}"
+          done
+
           mkdir -p bottle-artifacts
           mv ./*.bottle*.tar.gz bottle-artifacts/
           mv ./*.json bottle-artifacts/
