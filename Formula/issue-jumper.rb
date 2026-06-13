@@ -7,6 +7,12 @@ class IssueJumper < Formula
   license "MIT"
   head "https://github.com/weirdo-adam/issue-jumper.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/issue-jumper-0.1.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "03719cbb6c6f8f5b27680f1cdcc0463406e1b96ec053789f22fbb048d4ab2646"
+  end
+
   depends_on "rust" => :build
 
   def install
