@@ -12,6 +12,12 @@ Install a formula directly:
 brew install weirdo-adam/tap/issue-jumper
 ```
 
+Then install the Zed task/keymap integration when needed:
+
+```sh
+issue-jumper install-zed --force
+```
+
 Or add the tap first:
 
 ```sh
