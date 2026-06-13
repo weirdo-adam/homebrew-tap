@@ -37,3 +37,13 @@ brew install issue-jumper
 brew update
 brew upgrade issue-jumper
 ```
+
+## Bottles
+
+Formulae in this tap should publish bottles through the `Bottle` GitHub Actions workflow. Normal `brew install` uses the matching bottle when available, so users do not need Rust or LLVM build dependencies for the default install path.
+
+Use source builds only for formula development:
+
+```sh
+brew install --build-from-source weirdo-adam/tap/issue-jumper
+```

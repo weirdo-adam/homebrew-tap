@@ -1,0 +1,141 @@
+name: Bottle
+
+on:
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: "Formula name"
+        required: true
+        default: "issue-jumper"
+        type: string
+      release_tag:
+        description: "GitHub Release tag for bottle assets"
+        required: true
+        default: "issue-jumper-0.1.0"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bottle-${{ inputs.formula }}-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build bottle on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-26
+
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Resolve inputs
+        id: meta
+        shell: bash
+        run: |
+          formula="${{ inputs.formula }}"
+          release_tag="${{ inputs.release_tag }}"
+          root_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${release_tag}"
+
+          echo "formula=${formula}" >> "$GITHUB_OUTPUT"
+          echo "release_tag=${release_tag}" >> "$GITHUB_OUTPUT"
+          echo "root_url=${root_url}" >> "$GITHUB_OUTPUT"
+
+      - name: Tap local checkout
+        shell: bash
+        run: brew tap weirdo-adam/tap "$GITHUB_WORKSPACE"
+
+      - name: Build bottle keg
+        shell: bash
+        run: brew install --build-bottle "weirdo-adam/tap/${{ steps.meta.outputs.formula }}"
+
+      - name: Run formula test
+        shell: bash
+        run: brew test "weirdo-adam/tap/${{ steps.meta.outputs.formula }}"
+
+      - name: Generate bottle
+        shell: bash
+        run: |
+          brew bottle \
+            --json \
+            --root-url "${{ steps.meta.outputs.root_url }}" \
+            "weirdo-adam/tap/${{ steps.meta.outputs.formula }}"
+
+          mkdir -p bottle-artifacts
+          mv ./*.bottle*.tar.gz bottle-artifacts/
+          mv ./*.json bottle-artifacts/
+
+      - name: Upload bottle artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottle-${{ matrix.os }}
+          path: bottle-artifacts/*
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish bottle
+    needs: build
+    runs-on: macos-26
+
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+
+      - name: Resolve inputs
+        id: meta
+        shell: bash
+        run: |
+          echo "formula=${{ inputs.formula }}" >> "$GITHUB_OUTPUT"
+          echo "release_tag=${{ inputs.release_tag }}" >> "$GITHUB_OUTPUT"
+
+      - name: Download bottle artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bottle-*
+          path: bottle-artifacts
+          merge-multiple: true
+
+      - name: Publish bottle assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          release_tag="${{ steps.meta.outputs.release_tag }}"
+
+          if gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release upload "$release_tag" bottle-artifacts/* --clobber
+          else
+            gh release create "$release_tag" bottle-artifacts/* \
+              --title "$release_tag" \
+              --notes "Homebrew bottle assets for ${{ steps.meta.outputs.formula }}."
+          fi
+
+      - name: Merge bottle block
+        shell: bash
+        run: |
+          brew bottle --merge --write --no-commit bottle-artifacts/*.json
+
+      - name: Commit bottle block
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- Formula/"${{ steps.meta.outputs.formula }}".rb; then
+            echo "No formula changes to commit."
+          else
+            git add Formula/"${{ steps.meta.outputs.formula }}".rb
+            git commit -m "bottle: update ${{ steps.meta.outputs.formula }} ${{ steps.meta.outputs.release_tag }}"
+            git push
+          fi
