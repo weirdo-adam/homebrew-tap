@@ -129,6 +129,8 @@ jobs:
         shell: bash
         run: |
           brew bottle --merge --write --no-commit bottle-artifacts/*.json
+          cp "$(brew --repository weirdo-adam/tap)/Formula/${{ steps.meta.outputs.formula }}.rb" \
+            "Formula/${{ steps.meta.outputs.formula }}.rb"
 
       - name: Commit bottle block
         shell: bash
