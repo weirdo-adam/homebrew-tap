@@ -10,6 +10,7 @@ Install a formula directly:
 
 ```sh
 brew install weirdo-adam/tap/issue-jumper
+brew install weirdo-adam/tap/redmine-mcp-server
 ```
 
 Then install the Zed task/keymap integration when needed:
@@ -30,12 +31,13 @@ brew install issue-jumper
 | Formula | Description |
 | --- | --- |
 | `issue-jumper` | Open issue references from Zed in the corresponding tracker page. |
+| `redmine-mcp-server` | Standalone stdio MCP server for Redmine. |
 
 ## Updates
 
 ```sh
 brew update
-brew upgrade issue-jumper
+brew upgrade issue-jumper redmine-mcp-server
 ```
 
 ## Bottles
@@ -46,4 +48,5 @@ Use source builds only for formula development:
 
 ```sh
 brew install --build-from-source weirdo-adam/tap/issue-jumper
+brew install --build-from-source weirdo-adam/tap/redmine-mcp-server
 ```
