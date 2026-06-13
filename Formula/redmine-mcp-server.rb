@@ -6,6 +6,12 @@ class RedmineMcpServer < Formula
   sha256 "76dcff6ca952a4a98d94846345d3be093e32ce6b3a91b0cd68da1673fbac4004"
   license "MIT"
 
+  bottle do
+    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.1.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "1fa626d2538a583acb35568d1e1a6948dc7bce9a0ee5186d61d7653ad3a0dc34"
+  end
+
   depends_on "node"
 
   def install
