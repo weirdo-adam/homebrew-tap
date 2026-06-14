@@ -7,9 +7,9 @@ class RedmineMcpServer < Formula
   license "MIT"
 
   bottle do
-    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.1.0"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "1fa626d2538a583acb35568d1e1a6948dc7bce9a0ee5186d61d7653ad3a0dc34"
+    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.1.1"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "2a7ce1aed660266f4ea3584ae153571c8e4b704ae7745a1d41141f643c476449"
   end
 
   depends_on "node"
