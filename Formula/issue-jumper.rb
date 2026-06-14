@@ -1,17 +1,11 @@
 class IssueJumper < Formula
   desc "Jump from the current Git branch to its issue page"
   homepage "https://github.com/weirdo-adam/issue-jumper"
-  url "https://github.com/weirdo-adam/issue-jumper.git",
-      tag:      "v0.1.0",
-      revision: "eee1df8ac49152c44c69efcb313ba7408985e977"
+  url "https://github.com/weirdo-adam/issue-jumper/archive/refs/tags/" \
+      "v0.1.1.tar.gz"
+  sha256 "3b18bc204c130ade847336962e1804edfde289b14819b8c7d9c413c3400d2590"
   license "MIT"
   head "https://github.com/weirdo-adam/issue-jumper.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/issue-jumper-0.1.0"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "03719cbb6c6f8f5b27680f1cdcc0463406e1b96ec053789f22fbb048d4ab2646"
-  end
 
   depends_on "rust" => :build
 

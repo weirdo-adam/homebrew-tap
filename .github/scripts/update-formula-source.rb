@@ -24,9 +24,10 @@ formula_text = File.read(formula_path)
 formula_text = formula_text.sub(/\n  bottle do\n(?:    .*\n)*  end\n\n?/, "\n")
 
 source_pattern = /^  url ".*?"(?: \\\n\s+".*?")?\n  sha256 "[0-9a-fA-F]{64}"/m
+git_source_pattern = /^  url ".*?\.git",\n\s+tag:\s+".*?",\n\s+revision:\s+".*?"/m
 replacement = %(#{url_block}\n  sha256 "#{source_sha256}")
 
-unless formula_text.sub!(source_pattern, replacement)
+unless formula_text.sub!(source_pattern, replacement) || formula_text.sub!(git_source_pattern, replacement)
   abort "Unable to update source URL and sha256 in #{formula_path}"
 end
 
