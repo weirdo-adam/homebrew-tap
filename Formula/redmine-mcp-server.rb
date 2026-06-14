@@ -1,25 +1,22 @@
 class RedmineMcpServer < Formula
   desc "Standalone stdio MCP server for Redmine"
   homepage "https://github.com/weirdo-adam/redmine-mcp-server"
-  url "https://github.com/weirdo-adam/redmine-mcp-server/releases/download/v0.1.1/" \
-      "redmine-mcp-server-0.1.1.tar.gz"
-  sha256 "04656df03d6584fa7209e45c6b308e258934386a4d3b090f8d87c08d2655a19c"
+  url "https://github.com/weirdo-adam/redmine-mcp-server/releases/download/v0.2.0/" \
+      "redmine-mcp-server-0.2.0.tar.gz"
+  sha256 "4187593a24c049fe26effb5b5d390e58ed07f7a7f28058e177a4cf27d1c1d223"
   license "MIT"
 
   bottle do
-    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.1.1"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "9b5b0693caa766e5d0dad4e09a207f8a3eda59a157c68deb0b012c8036b99ed5"
+    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.2.0"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "5cf939238013f7e8eed562e5bdddcde247f381b06c7c2a0581e94e6615cf5563"
   end
 
-  depends_on "node"
+  depends_on "rust" => :build
 
   def install
-    libexec.install "package.json", "server", "docs", "README.md", "README.zh-CN.md", "LICENSE"
-    (bin/"redmine-mcp-server").write <<~SH
-      #!/bin/sh
-      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/server/index.js" "$@"
-    SH
-    chmod 0755, bin/"redmine-mcp-server"
+    system "cargo", "install", *std_cargo_args
+    doc.install "README.md", "README.zh-CN.md"
+    doc.install Dir["docs/*.md"]
   end
 
   def caveats
@@ -36,7 +33,7 @@ class RedmineMcpServer < Formula
         eval "$(#{HOMEBREW_PREFIX}/bin/brew shellenv)"
 
       Full client examples:
-        #{opt_libexec}/docs/client-configuration.md
+        #{doc}/client-configuration.md
     EOS
   end
 
