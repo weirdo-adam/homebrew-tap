@@ -73,6 +73,13 @@ jobs:
         shell: bash
         run: brew tap weirdo-adam/tap "$GITHUB_WORKSPACE"
 
+      - name: Sync updated formula to Homebrew tap
+        if: steps.meta.outputs.source_url != ''
+        shell: bash
+        run: |
+          cp "Formula/${{ steps.meta.outputs.formula }}.rb" \
+            "$(brew --repository weirdo-adam/tap)/Formula/${{ steps.meta.outputs.formula }}.rb"
+
       - name: Build bottle keg
         shell: bash
         run: brew install --build-bottle "weirdo-adam/tap/${{ steps.meta.outputs.formula }}"
@@ -140,6 +147,13 @@ jobs:
       - name: Tap local checkout
         shell: bash
         run: brew tap weirdo-adam/tap "$GITHUB_WORKSPACE"
+
+      - name: Sync updated formula to Homebrew tap
+        if: steps.meta.outputs.source_url != ''
+        shell: bash
+        run: |
+          cp "Formula/${{ steps.meta.outputs.formula }}.rb" \
+            "$(brew --repository weirdo-adam/tap)/Formula/${{ steps.meta.outputs.formula }}.rb"
 
       - name: Download bottle artifacts
         uses: actions/download-artifact@v4
