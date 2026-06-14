@@ -9,8 +9,8 @@ class IssueJumper < Formula
 
   bottle do
     root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/issue-jumper-0.1.1"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "b740986242dcc5ef83f3d22a5ec68b8228a3fda599817645ae27f99d9748bdf7"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "85c950e88429888ca7f03d5c3da9ee6a3a2947b37ffbc0c8376f68c4acb33981"
   end
 
   depends_on "rust" => :build
