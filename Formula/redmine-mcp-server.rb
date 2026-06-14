@@ -1,14 +1,14 @@
 class RedmineMcpServer < Formula
   desc "Standalone stdio MCP server for Redmine"
   homepage "https://github.com/weirdo-adam/redmine-mcp-server"
-  url "https://github.com/weirdo-adam/redmine-mcp-server/releases/download/v0.2.0/" \
-      "redmine-mcp-server-0.2.0.tar.gz"
-  sha256 "4187593a24c049fe26effb5b5d390e58ed07f7a7f28058e177a4cf27d1c1d223"
+  url "https://github.com/weirdo-adam/redmine-mcp-server/releases/download/v0.1.0/" \
+      "redmine-mcp-server-0.1.0.tar.gz"
+  sha256 "60046aeff9b7c4bddfe8dcf578eb82fccb8944fe2cbc83a19906b5a6b56a2064"
   license "MIT"
 
   bottle do
-    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.2.0"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe: "5cf939238013f7e8eed562e5bdddcde247f381b06c7c2a0581e94e6615cf5563"
+    root_url "https://github.com/weirdo-adam/homebrew-tap/releases/download/redmine-mcp-server-0.1.0"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe: "f7a69fa7e877db9f4fa73b774f50ba9c88d8ffd73c99fc763f2a6d6b5f5825ff"
   end
 
   depends_on "rust" => :build
