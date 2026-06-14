@@ -22,6 +22,24 @@ class RedmineMcpServer < Formula
     chmod 0755, bin/"redmine-mcp-server"
   end
 
+  def caveats
+    <<~EOS
+      Configure your MCP client to run:
+        #{opt_bin}/redmine-mcp-server
+
+      Required Redmine environment variables:
+        REDMINE_BASE_URL=https://redmine.example.com
+        REDMINE_API_KEY=your-api-key
+        REDMINE_MCP_READ_ONLY=true
+
+      If redmine-mcp-server is not found in a new shell, add Homebrew to PATH:
+        eval "$(#{HOMEBREW_PREFIX}/bin/brew shellenv)"
+
+      Full client examples:
+        #{opt_libexec}/docs/client-configuration.md
+    EOS
+  end
+
   test do
     ENV["REDMINE_BASE_URL"] = "https://redmine.example.com"
     ENV["REDMINE_API_KEY"] = "test"
