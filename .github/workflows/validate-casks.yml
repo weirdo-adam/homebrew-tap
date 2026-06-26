@@ -1,0 +1,36 @@
+name: Validate Casks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Casks/**'
+      - 'Formula/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Casks/**'
+      - 'Formula/**'
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Ruby Syntax
+        run: |
+          for f in Casks/*.rb Formula/*.rb; do
+            [ -f "$f" ] || continue
+            echo "==> Checking ${f}..."
+            ruby -c "${f}"
+          done
+
+      - name: Audit Casks (style only)
+        run: |
+          for cask in Casks/*.rb; do
+            echo "==> Auditing ${cask}..."
+            brew audit --cask "${cask}" 2>&1 || true
+          done

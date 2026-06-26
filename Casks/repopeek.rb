@@ -11,6 +11,14 @@ cask "repopeek" do
 
   app "RepoPeek.app"
 
+  auto_updates false
+
+  livecheck do
+    url :homepage
+    regex(/v?(\d{4}\.\d{2}\.\d{2})/i)
+    strategy :github_latest
+  end
+
   zap trash: [
     "~/Library/Application Support/RepoPeek",
     "~/Library/Caches/RepoPeek",

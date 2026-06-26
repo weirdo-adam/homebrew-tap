@@ -6,11 +6,12 @@ This repository provides formulae for command-line tools and applications distri
 
 ## Usage
 
-Install a formula directly:
+Install a formula or cask directly:
 
 ```sh
 brew install weirdo-adam/tap/issue-jumper
 brew install weirdo-adam/tap/redmine-mcp-server
+brew install --cask weirdo-adam/tap/repopeek
 ```
 
 Then install the Zed task/keymap integration when needed:
@@ -38,18 +39,20 @@ brew tap weirdo-adam/tap
 brew install issue-jumper
 ```
 
-## Formulae
+## Formulae & Casks
 
-| Formula | Description |
-| --- | --- |
-| `issue-jumper` | Open issue references from Zed in the corresponding tracker page. |
-| `redmine-mcp-server` | Standalone stdio MCP server for Redmine. |
+| Name | Type | Description |
+| --- | --- | --- |
+| `issue-jumper` | Formula | Open issue references from Zed in the corresponding tracker page. |
+| `redmine-mcp-server` | Formula | Standalone stdio MCP server for Redmine. |
+| `repopeek` | Cask | GitLab repository status in the macOS menu bar. |
 
 ## Updates
 
 ```sh
 brew update
 brew upgrade issue-jumper redmine-mcp-server
+brew upgrade --cask repopeek
 ```
 
 ## Bottles
