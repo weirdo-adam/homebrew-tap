@@ -1,6 +1,6 @@
 cask "repopeek" do
   version "2026.06.04"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  sha256 "b195c556c81e0c2999468d0f19cb4007a57d3d515971810d143dd3a600330891"
 
   url "https://github.com/weirdo-adam/RepoPeek/releases/download/v#{version}/RepoPeek-#{version}.zip"
   name "RepoPeek"
